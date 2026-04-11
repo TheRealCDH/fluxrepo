@@ -8,6 +8,7 @@ spec:
     http:
       url: "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
   storage:
+    volumeMode: Filesystem
     resources:
       requests:
         storage: 25Gi
@@ -23,6 +24,7 @@ spec:
     http:
       url: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-generic-amd64.qcow2"
   storage:
+    volumeMode: Filesystem
     resources:
       requests:
         storage: 15Gi
