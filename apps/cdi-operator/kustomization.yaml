@@ -1,4 +1,4 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - https://raw.githubusercontent.com/kubevirt/containerized-data-interface/v1.60.0/deploy/cdi-operator.yaml
+  - cdi-operator.yaml
