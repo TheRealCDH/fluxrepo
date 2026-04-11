@@ -1,0 +1,12 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: zfs-localpv
+allowVolumeExpansion: true
+parameters:
+  poolname: "zfspool" # CHANGE THIS to match your actual ZFS pool name (zpool list)
+  thinprovision: "yes"
+  recordsize: "128k"
+  compression: "on"
+provisioner: zfs.csi.openebs.io
+volumeBindingMode: WaitForFirstConsumer

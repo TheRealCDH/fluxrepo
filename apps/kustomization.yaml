@@ -9,3 +9,5 @@ resources:
   - cdi-operator.yaml
   - cdi-cr.yaml
   - kubevirt-instance-types.yaml
+  - zfs-provisioner.yaml
+  - zfs-storage-class.yaml
