@@ -6,3 +6,6 @@ resources:
   - kubevirt-cr.yaml
   - node-feature-discovery.yaml
   - kubevirt-manager.yaml
+  - cdi-operator.yaml
+  - cdi-cr.yaml
+  - kubevirt-instance-types.yaml
