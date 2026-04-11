@@ -2,7 +2,7 @@ apiVersion: cdi.kubevirt.io/v1beta1
 kind: DataVolume
 metadata:
   name: ubuntu-24-04
-  namespace: default
+  namespace: cdi
 spec:
   source:
     http:
@@ -20,7 +20,7 @@ apiVersion: cdi.kubevirt.io/v1beta1
 kind: DataVolume
 metadata:
   name: debian-12
-  namespace: default
+  namespace: cdi
 spec:
   source:
     http:
