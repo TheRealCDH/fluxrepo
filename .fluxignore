@@ -1,4 +1,1 @@
-**/charts/
-**/templates/
-**/Chart.yaml
-**/values.yaml
+# Empty .fluxignore - we rely on the Kustomization path to filter manifests
