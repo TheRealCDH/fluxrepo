@@ -1,0 +1,44 @@
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: ubuntu-24-04
+  namespace: default
+spec:
+  source:
+    http:
+      url: "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
+  storage:
+    resources:
+      requests:
+        storage: 20Gi
+    storageClassName: zfs-localpv
+---
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: fedora-40
+  namespace: default
+spec:
+  source:
+    http:
+      url: "https://download.fedoraproject.org/pub/fedora/linux/releases/40/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-40-1.14.x86_64.qcow2"
+  storage:
+    resources:
+      requests:
+        storage: 15Gi
+    storageClassName: zfs-localpv
+---
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: debian-12
+  namespace: default
+spec:
+  source:
+    http:
+      url: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-generic-amd64.qcow2"
+  storage:
+    resources:
+      requests:
+        storage: 10Gi
+    storageClassName: zfs-localpv

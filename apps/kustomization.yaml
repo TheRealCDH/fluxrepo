@@ -16,3 +16,4 @@ resources:
   - multus-cni.yaml
   - network-sync.yaml
   - custom-instance-types.yaml
+  - kubevirt-images.yaml
