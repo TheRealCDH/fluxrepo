@@ -11,3 +11,5 @@ resources:
   - kubevirt-instance-types.yaml
   - zfs-provisioner.yaml
   - zfs-storage-class.yaml
+  - multus-cni.yaml
+  - network-default.yaml
