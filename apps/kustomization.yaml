@@ -8,6 +8,7 @@ resources:
   - cdi-operator.yaml
   - infra-syncs.yaml
   - zfs-storage-class.yaml
+  - storage-profile.yaml
   - network-sync.yaml
   - custom-instance-types.yaml
   - kubevirt-images.yaml
