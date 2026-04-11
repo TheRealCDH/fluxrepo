@@ -12,4 +12,4 @@ resources:
   - zfs-provisioner.yaml
   - zfs-storage-class.yaml
   - multus-cni.yaml
-  - network-default.yaml
+  - network-configs.yaml
