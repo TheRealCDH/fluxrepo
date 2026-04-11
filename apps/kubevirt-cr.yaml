@@ -11,5 +11,4 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  resources:
-    - https://github.com/kubevirt/kubevirt/releases/download/v1.4.0/kubevirt-cr.yaml
+  path: ./apps/kubevirt-cr
