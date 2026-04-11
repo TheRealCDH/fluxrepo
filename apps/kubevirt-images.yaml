@@ -10,22 +10,7 @@ spec:
   storage:
     resources:
       requests:
-        storage: 20Gi
-    storageClassName: zfs-localpv
----
-apiVersion: cdi.kubevirt.io/v1beta1
-kind: DataVolume
-metadata:
-  name: fedora-40
-  namespace: default
-spec:
-  source:
-    http:
-      url: "https://download.fedoraproject.org/pub/fedora/linux/releases/40/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-40-1.14.x86_64.qcow2"
-  storage:
-    resources:
-      requests:
-        storage: 15Gi
+        storage: 25Gi
     storageClassName: zfs-localpv
 ---
 apiVersion: cdi.kubevirt.io/v1beta1
@@ -40,5 +25,5 @@ spec:
   storage:
     resources:
       requests:
-        storage: 10Gi
+        storage: 15Gi
     storageClassName: zfs-localpv

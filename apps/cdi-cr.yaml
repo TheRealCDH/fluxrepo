@@ -12,3 +12,4 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./apps/cdi-cr
+  targetNamespace: cdi
