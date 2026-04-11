@@ -5,3 +5,4 @@ resources:
   - kubevirt-operator.yaml
   - kubevirt-cr.yaml
   - node-feature-discovery.yaml
+  - kubevirt-manager.yaml
