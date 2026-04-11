@@ -4,9 +4,12 @@ metadata:
   name: kubevirt-templates
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: template-crd
   interval: 2h
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
   path: ./apps/kubevirt-templates
+  targetNamespace: kubevirt
