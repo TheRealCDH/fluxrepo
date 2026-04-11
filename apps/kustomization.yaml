@@ -4,16 +4,10 @@ resources:
   - example-app.yaml
   - kubevirt-operator.yaml
   - kubevirt-cr.yaml
-  - node-feature-discovery.yaml
   - kubevirt-manager.yaml
   - cdi-operator.yaml
-  - cdi-cr.yaml
-  - kubevirt-instance-types.yaml
-  - template-crd.yaml
-  - kubevirt-templates.yaml
-  - zfs-provisioner.yaml
+  - infra-syncs.yaml
   - zfs-storage-class.yaml
-  - multus-cni.yaml
   - network-sync.yaml
   - custom-instance-types.yaml
   - kubevirt-images.yaml
