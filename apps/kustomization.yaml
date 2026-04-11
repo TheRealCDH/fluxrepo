@@ -4,3 +4,4 @@ resources:
   - example-app.yaml
   - kubevirt-operator.yaml
   - kubevirt-cr.yaml
+  - node-feature-discovery.yaml
