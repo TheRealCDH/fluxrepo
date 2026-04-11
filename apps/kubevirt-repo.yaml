@@ -1,8 +1,9 @@
-apiVersion: source.toolkit.fluxcd.io/v1
+apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: kubevirt
   namespace: flux-system
 spec:
-  interval: 1m
-  url: https://charts.kubevirt.io
+  interval: 10m
+  type: oci
+  url: oci://quay.io/kubevirt/charts
