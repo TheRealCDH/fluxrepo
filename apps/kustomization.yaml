@@ -15,3 +15,4 @@ resources:
   - zfs-storage-class.yaml
   - multus-cni.yaml
   - network-sync.yaml
+  - custom-instance-types.yaml
