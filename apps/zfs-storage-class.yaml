@@ -4,7 +4,7 @@ metadata:
   name: zfs-localpv
 allowVolumeExpansion: true
 parameters:
-  poolname: "zfspool" # CHANGE THIS to match your actual ZFS pool name (zpool list)
+  poolname: "rpool"
   thinprovision: "yes"
   recordsize: "128k"
   compression: "on"
