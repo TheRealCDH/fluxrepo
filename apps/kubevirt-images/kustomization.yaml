@@ -1,35 +1,4 @@
-apiVersion: cdi.kubevirt.io/v1beta1
-kind: DataVolume
-metadata:
-  name: ubuntu-24-04
-  namespace: cdi
-spec:
-  source:
-    http:
-      url: "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
-  storage:
-    accessModes:
-      - ReadWriteOnce
-    volumeMode: Filesystem
-    resources:
-      requests:
-        storage: 25Gi
-    storageClassName: zfs-localpv
----
-apiVersion: cdi.kubevirt.io/v1beta1
-kind: DataVolume
-metadata:
-  name: debian-12
-  namespace: cdi
-spec:
-  source:
-    http:
-      url: "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-generic-amd64.qcow2"
-  storage:
-    accessModes:
-      - ReadWriteOnce
-    volumeMode: Filesystem
-    resources:
-      requests:
-        storage: 15Gi
-    storageClassName: zfs-localpv
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - resources.yaml
