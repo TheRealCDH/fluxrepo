@@ -12,3 +12,5 @@ resources:
   - network-sync.yaml
   - custom-instance-types.yaml
   - kubevirt-images.yaml
+  - headlamp.yaml
+  - headlamp-auth.yaml
