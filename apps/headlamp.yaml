@@ -26,5 +26,6 @@ spec:
     createNamespace: true
   values:
     service:
-      type: LoadBalancer
+      type: NodePort
       port: 80
+      nodePort: 30000
