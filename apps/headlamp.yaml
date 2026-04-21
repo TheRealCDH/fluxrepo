@@ -29,6 +29,8 @@ spec:
       type: NodePort
       port: 80
       nodePort: 30000
+    config:
+      watchPlugins: true
     pluginsManager:
       enabled: true
       configContent: |
