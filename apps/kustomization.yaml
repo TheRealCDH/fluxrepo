@@ -8,9 +8,9 @@ resources:
   - cdi-operator.yaml
   - infra-syncs.yaml
   - zfs-storage-class.yaml
-  - storage-profile.yaml
+  - storage-sync.yaml
   - network-sync.yaml
-  - custom-instance-types.yaml
-  - kubevirt-images.yaml
+  - custom-types-sync.yaml
+  - images-sync.yaml
   - headlamp.yaml
   - headlamp-auth.yaml
