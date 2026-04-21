@@ -1,0 +1,213 @@
+# Consolidated Sync Manifests for FluxCD
+# This file manages the ordering and sync of sub-folders in the repository.
+
+---
+# 1. Core Operators
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kubevirt-operator
+  namespace: flux-system
+spec:
+  interval: 1h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/kubevirt-operator
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cdi-operator
+  namespace: flux-system
+spec:
+  interval: 1h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/cdi-operator
+  targetNamespace: cdi
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: zfs-provisioner
+  namespace: flux-system
+spec:
+  interval: 1h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/zfs-provisioner
+
+---
+# 2. Instances (Depends on Operators)
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kubevirt-instance
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: kubevirt-operator
+  interval: 1h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/kubevirt-cr
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cdi-instance
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: cdi-operator
+  interval: 1h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/cdi-cr
+  targetNamespace: cdi
+
+---
+# 3. Infrastructure & Networking
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: multus-cni
+  namespace: flux-system
+spec:
+  interval: 1h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/multus-cni
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: node-feature-discovery
+  namespace: flux-system
+spec:
+  interval: 1h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/node-feature-discovery
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: network-configs
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: multus-cni
+  interval: 1h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/network-configs
+
+---
+# 4. Templates & Metadata
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: template-crd
+  namespace: flux-system
+spec:
+  interval: 1h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/template-crd
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kubevirt-templates
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: template-crd
+  interval: 2h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/kubevirt-templates
+  targetNamespace: kubevirt
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kubevirt-instance-types
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: kubevirt-operator
+  interval: 2h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/kubevirt-instance-types
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: custom-types
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: kubevirt-operator
+  interval: 2h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/custom-types
+
+---
+# 5. Configs & OS Images
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: storage-configs
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: cdi-instance
+  interval: 1h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/storage-configs
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kubevirt-images
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: cdi-instance
+  interval: 2h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/kubevirt-images

@@ -1,17 +1,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - example-app.yaml
-  - kubevirt-operator.yaml
-  - kubevirt-cr.yaml
-  - kubevirt-manager.yaml
-  - cdi-operator.yaml
-  - infra-syncs.yaml
+  # 1. Sync Logic (Folder pointers)
+  - sync-manifests.yaml
+
+  # 2. Infrastructure Configs (Local YAMLs)
+  - metallb-config.yaml
   - zfs-storage-class.yaml
-  - storage-sync.yaml
-  - network-sync.yaml
-  - custom-types-sync.yaml
-  - images-sync.yaml
+
+  # 3. Workloads & Dashboards
+  - example-app.yaml
+  - kubevirt-manager.yaml
   - headlamp.yaml
   - headlamp-auth.yaml
-  - metallb-config.yaml
