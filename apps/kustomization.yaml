@@ -10,6 +10,5 @@ resources:
 
   # 3. Workloads & Dashboards
   - example-app.yaml
-  - kubevirt-manager.yaml
   - headlamp.yaml
   - headlamp-auth.yaml

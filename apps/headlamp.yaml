@@ -29,3 +29,10 @@ spec:
       type: NodePort
       port: 80
       nodePort: 30000
+    pluginsManager:
+      enabled: true
+      configContent: |
+        plugins:
+          - name: kubevirt
+            source: https://artifacthub.io/packages/headlamp/headlamp-kubevirt/headlamp_kubevirt
+            version: 0.2.0
