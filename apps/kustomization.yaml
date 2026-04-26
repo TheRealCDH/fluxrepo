@@ -5,6 +5,5 @@ resources:
   - sync-manifests.yaml
 
   # 2. Workloads & Dashboards
-  - example-app.yaml
   - headlamp.yaml
   - headlamp-auth.yaml
