@@ -57,6 +57,19 @@ spec:
   path: ./apps/metallb-operator
 
 ---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: tailscale-operator
+  namespace: flux-system
+spec:
+  interval: 1h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/tailscale-operator
+---
 # 2. Instances (Depends on Operators)
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
