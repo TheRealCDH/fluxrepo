@@ -28,8 +28,7 @@ spec:
     service:
       type: NodePort
       port: 80
-      nodePort: 30010
-      externalTrafficPolicy: Local
+      nodePort: 30009
     config:
       watchPlugins: true
     pluginsManager:
