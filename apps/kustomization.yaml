@@ -8,3 +8,36 @@ resources:
   - headlamp-netpol.yaml
   - headlamp-auth.yaml
   - headlamp.yaml
+
+patches:
+  # Patch Headlamp Deployment to add KubeVirt plugin via initContainer
+  - target:
+      kind: Deployment
+      name: headlamp
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: headlamp
+      spec:
+        template:
+          spec:
+            volumes:
+              - name: plugins-dir
+                emptyDir: {}
+            initContainers:
+              - name: install-kubevirt
+                image: alpine:latest
+                command: ["/bin/sh", "-c"]
+                args:
+                  - |
+                    mkdir -p /headlamp/plugins/kubevirt
+                    wget -qO- https://github.com/naval-group/headlamp-kubevirt/releases/download/v0.2.1/headlamp-kubevirt-0.2.1.tar.gz | tar -xz -C /headlamp/plugins/kubevirt --strip-components=1
+                volumeMounts:
+                  - name: plugins-dir
+                    mountPath: /headlamp/plugins
+            containers:
+              - name: headlamp
+                volumeMounts:
+                  - name: plugins-dir
+                    mountPath: /headlamp/plugins
