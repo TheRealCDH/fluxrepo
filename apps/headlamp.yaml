@@ -31,10 +31,24 @@ spec:
       nodePort: 30010
     config:
       watchPlugins: true
+    # Reliable plugin install via initContainer using GitHub Release
+    initContainers:
+      - name: install-kubevirt
+        image: alpine:latest
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            mkdir -p /headlamp/plugins/kubevirt
+            wget -qO- https://github.com/naval-group/headlamp-kubevirt/releases/download/v0.2.1/headlamp-kubevirt-0.2.1.tar.gz | tar -xz -C /headlamp/plugins/kubevirt --strip-components=1
+        volumeMounts:
+          - name: plugins-dir
+            mountPath: /headlamp/plugins
+    # Share the plugins folder with the main container
+    volumes:
+      - name: plugins-dir
+        emptyDir: {}
+    volumeMounts:
+      - name: plugins-dir
+        mountPath: /headlamp/plugins
     pluginsManager:
-      enabled: true
-      configContent: |
-        plugins:
-          - name: kubevirt
-            source: https://artifacthub.io/packages/headlamp/headlamp-kubevirt/headlamp_kubevirt
-            version: 0.2.0
+      enabled: false
