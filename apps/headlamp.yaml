@@ -28,13 +28,28 @@ spec:
     service:
       type: NodePort
       port: 80
-      nodePort: 30012
+      nodePort: 30015
     config:
       watchPlugins: true
+    # Use initContainer for reliable plugin installation
+    initContainers:
+      - name: install-kubevirt
+        image: alpine:latest
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            mkdir -p /headlamp/plugins/kubevirt
+            wget -qO- https://github.com/headlamp-k8s/plugins/releases/download/kubevirt-0.2.0/kubevirt-0.2.0.tar.gz | tar -xz -C /headlamp/plugins/kubevirt --strip-components=1
+        volumeMounts:
+          - name: plugins-dir
+            mountPath: /headlamp/plugins
+    # Ensure the plugins directory is shared
+    extraVolumes:
+      - name: plugins-dir
+        emptyDir: {}
+    extraVolumeMounts:
+      - name: plugins-dir
+        mountPath: /headlamp/plugins
+    # Disable the sidecar manager as we're doing it manually now
     pluginsManager:
-      enabled: true
-      configContent: |
-        plugins:
-          - name: kubevirt
-            source: https://artifacthub.io/packages/headlamp/headlamp-kubevirt/headlamp_kubevirt
-            version: 0.2.0
+      enabled: false
