@@ -28,7 +28,7 @@ spec:
     service:
       type: NodePort
       port: 80
-      nodePort: 30005
+      nodePort: 30008
       externalTrafficPolicy: Local
     config:
       watchPlugins: true
