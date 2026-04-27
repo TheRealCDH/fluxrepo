@@ -28,7 +28,7 @@ spec:
     service:
       type: NodePort
       port: 80
-      nodePort: 30009
+      nodePort: 30008
     config:
       watchPlugins: true
     pluginsManager:
