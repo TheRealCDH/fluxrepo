@@ -31,7 +31,13 @@ spec:
       nodePort: 30015
     config:
       watchPlugins: true
-    # Use initContainer for reliable plugin installation
+    # Correct fields for volumes and volumeMounts
+    volumes:
+      - name: plugins-dir
+        emptyDir: {}
+    volumeMounts:
+      - name: plugins-dir
+        mountPath: /headlamp/plugins
     initContainers:
       - name: install-kubevirt
         image: alpine:latest
@@ -43,13 +49,5 @@ spec:
         volumeMounts:
           - name: plugins-dir
             mountPath: /headlamp/plugins
-    # Ensure the plugins directory is shared
-    extraVolumes:
-      - name: plugins-dir
-        emptyDir: {}
-    extraVolumeMounts:
-      - name: plugins-dir
-        mountPath: /headlamp/plugins
-    # Disable the sidecar manager as we're doing it manually now
     pluginsManager:
       enabled: false
