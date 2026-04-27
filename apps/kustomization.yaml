@@ -4,11 +4,9 @@ resources:
   # 1. Sync Logic (Folder pointers)
   - sync-manifests.yaml
 
-  # 2. Infrastructure Configs (Local YAMLs)
-  - metallb-config.yaml
-  - zfs-storage-class.yaml
+  # 2. Standalone Manifests
   - headlamp-netpol.yaml
-
-  # 3. Workloads & Dashboards
-  - headlamp.yaml
   - headlamp-auth.yaml
+  - headlamp.yaml
+
+  # Note: Other configs are managed via sync-manifests.yaml folder pointers
