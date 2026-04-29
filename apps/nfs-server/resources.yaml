@@ -30,11 +30,24 @@ spec:
         - name: NFS_LOG_LEVEL
           value: "DEBUG"
         - name: NFS_EXPORT_0
-          value: "/exports/Plex *(rw,sync,no_subtree_check,insecure,no_root_squash)"
+          value: "/nfs-share *(rw,sync,no_subtree_check,fsid=0,crossmnt)"
+        - name: NFS_EXPORT_1
+          value: "/nfs-share/exports/Plex *(rw,sync,no_subtree_check,insecure,no_root_squash)"
         volumeMounts:
+        - name: nfs-share
+          mountPath: /nfs-share
         - name: plex-data
-          mountPath: /exports/Plex
+          mountPath: /nfs-share/exports/Plex
+      initContainers:
+      - name: setup
+        image: busybox
+        command: ["sh", "-c", "mkdir -p /nfs-share/exports/Plex"]
+        volumeMounts:
+        - name: nfs-share
+          mountPath: /nfs-share
       volumes:
+      - name: nfs-share
+        emptyDir: {}
       - name: plex-data
         hostPath:
           path: /MASS/Plex
