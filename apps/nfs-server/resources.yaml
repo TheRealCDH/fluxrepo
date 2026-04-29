@@ -83,6 +83,5 @@ metadata:
   namespace: nfs-server
 spec:
   type: ingress
-  hostname: nfs-server
-  tailscaleConfig:
-    tags: ["tag:k8s-operator"]
+  hostnamePrefix: nfs-server
+  tags: ["tag:k8s-operator"]
