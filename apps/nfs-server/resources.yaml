@@ -18,7 +18,6 @@ spec:
       labels:
         app: nfs-server
     spec:
-      hostNetwork: true
       nodeSelector:
         kubernetes.io/hostname: ripnix
       containers:
