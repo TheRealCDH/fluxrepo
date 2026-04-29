@@ -57,15 +57,12 @@ metadata:
   namespace: nfs-server
   annotations:
     tailscale.com/expose: "true"
-    tailscale.com/proxy-group: nfs-proxy
-    tailscale.com/hostname: nfs-k8s-storage
+    tailscale.com/hostname: plex-nfs-server
     tailscale.com/tags: tag:k8s-operator
 spec:
-
-
+  type: LoadBalancer
   selector:
     app: nfs-server
-  type: LoadBalancer
   ports:
   - name: nfs
     port: 2049
@@ -79,13 +76,3 @@ spec:
     port: 111
     protocol: TCP
     targetPort: 111
----
-apiVersion: tailscale.com/v1alpha1
-kind: ProxyGroup
-metadata:
-  name: nfs-proxy
-  namespace: nfs-server
-spec:
-  type: ingress
-  hostnamePrefix: nfs-pgrp
-  tags: ["tag:k8s-operator"]
