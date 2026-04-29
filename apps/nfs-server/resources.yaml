@@ -32,16 +32,11 @@ spec:
         volumeMounts:
         - name: plex-data
           mountPath: /exports/Plex
-        - name: nfsd-fs
-          mountPath: /proc/fs/nfsd
       volumes:
       - name: plex-data
         hostPath:
           path: /MASS/Plex
           type: Directory
-      - name: nfsd-fs
-        hostPath:
-          path: /proc/fs/nfsd
 ---
 apiVersion: v1
 kind: Service
