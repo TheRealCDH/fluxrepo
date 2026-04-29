@@ -57,6 +57,7 @@ metadata:
   namespace: nfs-server
   annotations:
     tailscale.com/proxy-group: nfs-proxy
+    tailscale.com/hostname: nfs-storage
     tailscale.com/tags: tag:k8s-operator
 spec:
 
