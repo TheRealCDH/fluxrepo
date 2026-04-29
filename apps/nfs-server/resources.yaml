@@ -53,14 +53,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nfs-plex-svc
+  name: plex-nfs
   namespace: nfs-server
   annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: plex-nfs
-    tailscale.com/tags: tag:k8s-operator
+    tailscale.com/hostname: plex-nfs-final
 spec:
-  type: ClusterIP
+  type: LoadBalancer
+  loadBalancerClass: tailscale.com/operator
   selector:
     app: nfs-server
   ports:
