@@ -58,6 +58,7 @@ metadata:
   namespace: nfs-server
   annotations:
     tailscale.com/expose: "true"
+    tailscale.com/hostname: "nfs-server"
 spec:
   selector:
     app: nfs-server
