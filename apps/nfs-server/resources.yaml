@@ -27,8 +27,12 @@ spec:
         securityContext:
           privileged: true
         env:
+        - name: NFS_LOG_LEVEL
+          value: "DEBUG"
         - name: NFS_EXPORT_0
-          value: "/exports/Plex *(rw,sync,no_subtree_check,no_auth_nlm,insecure,no_root_squash)"
+          value: "/exports *(rw,sync,no_subtree_check,fsid=0,crossmnt)"
+        - name: NFS_EXPORT_1
+          value: "/exports/Plex *(rw,sync,no_subtree_check,insecure,no_root_squash)"
         volumeMounts:
         - name: plex-data
           mountPath: /exports/Plex
