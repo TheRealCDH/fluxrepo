@@ -56,9 +56,10 @@ metadata:
   name: nfs-server
   namespace: nfs-server
   annotations:
-    tailscale.com/expose: "true"
     tailscale.com/proxy-group: nfs-proxy
+    tailscale.com/tags: tag:k8s-operator
 spec:
+
 
   selector:
     app: nfs-server
