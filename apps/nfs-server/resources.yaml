@@ -3,6 +3,17 @@ kind: Namespace
 metadata:
   name: nfs-server
 ---
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyGroup
+metadata:
+  name: nfs-proxy
+  namespace: nfs-server
+spec:
+  type: ingress
+  hostnamePrefix: nfs-p
+  tags:
+    - tag:k8s-operator
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -56,9 +67,8 @@ metadata:
   name: nfs-plex
   namespace: nfs-server
   annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: nfs-storage-final
-    tailscale.com/tags: '["tag:k8s-operator"]'
+    tailscale.com/proxy-group: nfs-proxy
+    tailscale.com/hostname: plex-nfs-service
 spec:
   selector:
     app: nfs-server
