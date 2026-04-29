@@ -3,6 +3,15 @@ kind: Namespace
 metadata:
   name: nfs-server
 ---
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyClass
+metadata:
+  name: nfs-proxy-class
+spec:
+  tailscaleConfig:
+    tags:
+      - tag:k8s-operator
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -57,7 +66,8 @@ metadata:
   namespace: nfs-server
   annotations:
     tailscale.com/expose: "true"
-    tailscale.com/tags: tag:k8s-operator
+    tailscale.com/hostname: nfs-final
+    tailscale.com/proxy-class: nfs-proxy-class
 spec:
   selector:
     app: nfs-server
