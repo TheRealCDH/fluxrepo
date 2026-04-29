@@ -59,6 +59,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: "nfs-server"
+    tailscale.com/tags: "tag:k8s-operator"
 spec:
   selector:
     app: nfs-server
