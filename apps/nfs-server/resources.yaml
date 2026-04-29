@@ -53,13 +53,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: plex-nfs
+  name: nfs-plex
   namespace: nfs-server
   annotations:
-    tailscale.com/hostname: plex-nfs-final
+    tailscale.com/expose: "true"
 spec:
-  type: LoadBalancer
-  loadBalancerClass: tailscale.com/operator
   selector:
     app: nfs-server
   ports:
