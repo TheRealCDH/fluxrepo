@@ -35,3 +35,4 @@ spec:
     # For now, we install it and it will wait for an OAuth secret
     operatorConfig:
       logging: "info"
+      defaultTags: ["tag:k8s-operator"]
