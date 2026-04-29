@@ -21,6 +21,13 @@ spec:
       hostNetwork: true
       nodeSelector:
         kubernetes.io/hostname: ripnix
+      initContainers:
+      - name: setup
+        image: busybox
+        command: ["sh", "-c", "mkdir -p /exports/Plex"]
+        volumeMounts:
+        - name: exports-root
+          mountPath: /exports
       containers:
       - name: nfs-server
         image: erichough/nfs-server
@@ -32,9 +39,13 @@ spec:
         - name: NFS_EXPORT_1
           value: "/exports/Plex *(rw,sync,no_subtree_check,insecure,no_root_squash)"
         volumeMounts:
+        - name: exports-root
+          mountPath: /exports
         - name: plex-data
           mountPath: /exports/Plex
       volumes:
+      - name: exports-root
+        emptyDir: {}
       - name: plex-data
         hostPath:
           path: /MASS/Plex
