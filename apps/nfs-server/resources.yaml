@@ -65,6 +65,7 @@ spec:
 
   selector:
     app: nfs-server
+  type: LoadBalancer
   ports:
   - name: nfs
     port: 2049
