@@ -59,6 +59,7 @@ metadata:
     tailscale.com/expose: "true"
     tailscale.com/proxy-group: nfs-proxy
     tailscale.com/hostname: nfs-k8s-storage
+    tailscale.com/tags: tag:k8s-operator
 spec:
 
 
