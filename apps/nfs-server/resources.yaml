@@ -84,5 +84,5 @@ metadata:
   namespace: nfs-server
 spec:
   type: ingress
-  hostnamePrefix: nfs-server
+  hostnamePrefix: nfs-px
   tags: ["tag:k8s-operator"]
