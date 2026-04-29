@@ -3,17 +3,6 @@ kind: Namespace
 metadata:
   name: nfs-server
 ---
-apiVersion: tailscale.com/v1alpha1
-kind: ProxyGroup
-metadata:
-  name: nfs-proxy
-  namespace: nfs-server
-spec:
-  type: ingress
-  hostnamePrefix: nfs-p
-  tags:
-    - tag:k8s-operator
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -29,6 +18,7 @@ spec:
       labels:
         app: nfs-server
     spec:
+      hostNetwork: true
       nodeSelector:
         kubernetes.io/hostname: ripnix
       containers:
@@ -38,37 +28,26 @@ spec:
           privileged: true
         env:
         - name: NFS_EXPORT_0
-          value: "/nfs-share *(rw,sync,no_subtree_check,fsid=0,crossmnt)"
-        - name: NFS_EXPORT_1
-          value: "/nfs-share/exports/Plex *(rw,sync,no_subtree_check,insecure,no_root_squash)"
+          value: "/exports/Plex *(rw,sync,no_subtree_check,insecure,no_root_squash)"
         volumeMounts:
-        - name: nfs-share
-          mountPath: /nfs-share
         - name: plex-data
-          mountPath: /nfs-share/exports/Plex
-      initContainers:
-      - name: setup
-        image: busybox
-        command: ["sh", "-c", "mkdir -p /nfs-share/exports/Plex"]
-        volumeMounts:
-        - name: nfs-share
-          mountPath: /nfs-share
+          mountPath: /exports/Plex
+        - name: nfsd-fs
+          mountPath: /proc/fs/nfsd
       volumes:
-      - name: nfs-share
-        emptyDir: {}
       - name: plex-data
         hostPath:
           path: /MASS/Plex
           type: Directory
+      - name: nfsd-fs
+        hostPath:
+          path: /proc/fs/nfsd
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nfs-plex
+  name: nfs-server
   namespace: nfs-server
-  annotations:
-    tailscale.com/proxy-group: nfs-proxy
-    tailscale.com/hostname: plex-nfs-service
 spec:
   selector:
     app: nfs-server
