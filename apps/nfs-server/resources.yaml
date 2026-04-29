@@ -57,10 +57,9 @@ metadata:
   name: nfs-server
   namespace: nfs-server
   annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "nfs-server"
-    tailscale.com/tags: "tag:k8s-operator"
+    tailscale.com/proxy-group: nfs-proxy
 spec:
+
   selector:
     app: nfs-server
   ports:
@@ -76,3 +75,14 @@ spec:
     port: 111
     protocol: TCP
     targetPort: 111
+---
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyGroup
+metadata:
+  name: nfs-proxy
+  namespace: nfs-server
+spec:
+  type: ingress
+  hostname: nfs-server
+  tailscaleConfig:
+    tags: ["tag:k8s-operator"]
