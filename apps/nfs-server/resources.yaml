@@ -43,10 +43,7 @@ spec:
           mountPath: /nfs-share
         - name: plex-data
           mountPath: /nfs-share/exports/Plex
-        lifecycle:
-          postStart:
-            exec:
-              command: ["sh", "-c", "sleep 5 && echo 32 > /proc/fs/nfsd/threads"]
+        command: ["sh", "-c", "/usr/local/bin/entrypoint.sh & sleep 5 && while true; do if [ $(cat /proc/fs/nfsd/threads) -eq 0 ]; then echo 'Kicking nfsd threads...'; /usr/sbin/rpc.nfsd 8; fi; sleep 10; done"]
       volumes:
       - name: nfs-root
         emptyDir: {}
