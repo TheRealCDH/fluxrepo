@@ -39,7 +39,7 @@ spec:
               spec:
                 strategy:
                   type: Recreate
-                  rollingUpdate: null # Must remove this when using Recreate
+                  $patch: replace # This should replace the entire strategy object
                 template:
                   spec:
                     nodeName: ripnix
