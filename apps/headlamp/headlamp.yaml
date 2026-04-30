@@ -38,8 +38,10 @@ spec:
                 name: headlamp
               spec:
                 strategy:
-                  type: Recreate
-                  $patch: replace # This should replace the entire strategy object
+                  type: RollingUpdate
+                  rollingUpdate:
+                    maxSurge: 0
+                    maxUnavailable: 1
                 template:
                   spec:
                     nodeName: ripnix
@@ -63,7 +65,7 @@ spec:
                       - name: headlamp
                         ports:
                           - containerPort: 4466
-                            hostPort: 4466
+                            # Removed hostPort to avoid conflicts during rollout
                         volumeMounts:
                           - name: plugins-dir
                             mountPath: /headlamp/plugins
