@@ -39,6 +39,7 @@ spec:
               spec:
                 strategy:
                   type: Recreate
+                  rollingUpdate: null # Must remove this when using Recreate
                 template:
                   spec:
                     nodeName: ripnix
@@ -62,14 +63,14 @@ spec:
                       - name: headlamp
                         ports:
                           - containerPort: 4466
-                            hostPort: 4466 # Re-enable since strategy is Recreate
+                            hostPort: 4466
                         volumeMounts:
                           - name: plugins-dir
                             mountPath: /headlamp/plugins
                       - name: mdns-publisher
                         image: alpine:latest
                         securityContext:
-                          privileged: true # Use privileged to ensure mDNS can bind with hostNetwork
+                          privileged: true
                         command: ["/bin/sh", "-c"]
                         args:
                           - |
