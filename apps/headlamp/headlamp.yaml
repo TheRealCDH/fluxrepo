@@ -25,5 +25,58 @@ spec:
       targetPort: 4466
       annotations:
         metallb.io/loadBalancerIPs: 192.168.2.240
-    # The Headlamp chart doesn't have a direct "sidecars" value, 
-    # so we will use a Kustomize patch in this directory.
+    # Add initContainers and extra volumes via values if supported, 
+    # but we'll use postRenderers for full control over sidecars and hostNetwork.
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: headlamp
+            patch: |-
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: headlamp
+              spec:
+                template:
+                  spec:
+                    nodeName: ripnix
+                    hostNetwork: true
+                    dnsPolicy: ClusterFirstWithHostNet
+                    volumes:
+                      - name: plugins-dir
+                        emptyDir: {}
+                    initContainers:
+                      - name: install-kubevirt
+                        image: alpine:latest
+                        command: ["/bin/sh", "-c"]
+                        args:
+                          - |
+                            mkdir -p /headlamp/plugins/kubevirt
+                            wget -qO- https://github.com/naval-group/headlamp-kubevirt/releases/download/v0.2.1/headlamp-kubevirt-0.2.1.tar.gz | tar -xz -C /headlamp/plugins/kubevirt --strip-components=1
+                        volumeMounts:
+                          - name: plugins-dir
+                            mountPath: /headlamp/plugins
+                    containers:
+                      - name: headlamp
+                        volumeMounts:
+                          - name: plugins-dir
+                            mountPath: /headlamp/plugins
+                      - name: mdns-publisher
+                        image: alpine:latest
+                        securityContext:
+                          capabilities:
+                            add:
+                              - NET_ADMIN
+                        command: ["/bin/sh", "-c"]
+                        args:
+                          - |
+                            apk add --no-cache avahi avahi-tools
+                            sed -i 's/#enable-dbus=yes/enable-dbus=no/g' /etc/avahi/avahi-daemon.conf
+                            mkdir -p /var/run/avahi-daemon
+                            chown avahi:avahi /var/run/avahi-daemon
+                            avahi-daemon --daemonize --no-chroot
+                            sleep 5
+                            echo "Publishing admin.local -> 192.168.2.240"
+                            avahi-publish -a admin.local 192.168.2.240
