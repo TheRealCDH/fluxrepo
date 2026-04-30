@@ -1,43 +1,28 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
 resources:
   # 1. Sync Logic (Folder pointers)
   - sync-manifests.yaml
 
   # 2. Standalone Manifests
-  - headlamp-netpol.yaml
-  - headlamp-auth.yaml
-  - headlamp.yaml
+  - headlamp/
 
 patches:
-  # Patch Headlamp Deployment to add KubeVirt plugin via initContainer
   - target:
-      kind: Deployment
-      name: headlamp
+      kind: Kustomization
+      name: second-sync
+      namespace: flux-system
     patch: |-
-      apiVersion: apps/v1
-      kind: Deployment
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
       metadata:
-        name: headlamp
+        name: second-sync
       spec:
-        template:
-          spec:
-            volumes:
-              - name: plugins-dir
-                emptyDir: {}
-            initContainers:
-              - name: install-kubevirt
-                image: alpine:latest
-                command: ["/bin/sh", "-c"]
-                args:
-                  - |
-                    mkdir -p /headlamp/plugins/kubevirt
-                    wget -qO- https://github.com/naval-group/headlamp-kubevirt/releases/download/v0.2.1/headlamp-kubevirt-0.2.1.tar.gz | tar -xz -C /headlamp/plugins/kubevirt --strip-components=1
-                volumeMounts:
-                  - name: plugins-dir
-                    mountPath: /headlamp/plugins
-            containers:
-              - name: headlamp
-                volumeMounts:
-                  - name: plugins-dir
-                    mountPath: /headlamp/plugins
+        patches:
+          - target:
+              kind: HelmRelease
+              name: headlamp
+            patch: |
+              $patch: delete
+              apiVersion: helm.toolkit.fluxcd.io/v2
+              kind: HelmRelease
+              metadata:
+                name: headlamp

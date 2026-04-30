@@ -2,12 +2,12 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: headlamp-allow-all
-  namespace: flux-system
+  namespace: headlamp
 spec:
   podSelector:
     matchLabels:
       app.kubernetes.io/name: headlamp
-  policyTypes:
-  - Ingress
   ingress:
-  - {} # Allow all inbound traffic
+    - {}
+  policyTypes:
+    - Ingress
