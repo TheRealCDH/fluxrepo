@@ -37,6 +37,8 @@ spec:
               metadata:
                 name: headlamp
               spec:
+                strategy:
+                  type: Recreate
                 template:
                   spec:
                     nodeName: ripnix
@@ -58,6 +60,9 @@ spec:
                             mountPath: /headlamp/plugins
                     containers:
                       - name: headlamp
+                        ports:
+                          - containerPort: 4466
+                            hostPort: 0 # Disable hostPort conflict
                         volumeMounts:
                           - name: plugins-dir
                             mountPath: /headlamp/plugins
@@ -76,10 +81,7 @@ spec:
                             mkdir -p /var/run/avahi-daemon
                             chown avahi:avahi /var/run/avahi-daemon
                             echo "Starting avahi-daemon..."
-                            /usr/sbin/avahi-daemon --no-chroot &
+                            /usr/sbin/avahi-daemon --no-chroot --daemonize
                             sleep 5
                             echo "Publishing admin.local -> 192.168.2.240"
-                            if ! /usr/bin/avahi-publish -a admin.local 192.168.2.240; then
-                              echo "Publish failed, sleeping for debug..."
-                              sleep infinity
-                            fi
+                            /usr/bin/avahi-publish -a admin.local 192.168.2.240
