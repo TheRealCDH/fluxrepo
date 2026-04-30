@@ -17,10 +17,9 @@ patches:
         namespace: headlamp
       spec:
         template:
-      spec:
-        nodeName: ripnix
-        hostNetwork: true
-
+          spec:
+            nodeName: ripnix
+            hostNetwork: true
             dnsPolicy: ClusterFirstWithHostNet
             volumes:
               - name: plugins-dir
