@@ -25,8 +25,6 @@ spec:
       targetPort: 4466
       annotations:
         metallb.io/loadBalancerIPs: 192.168.2.240
-    # Add initContainers and extra volumes via values if supported, 
-    # but we'll use postRenderers for full control over sidecars and hostNetwork.
   postRenderers:
     - kustomize:
         patches:
@@ -77,6 +75,10 @@ spec:
                             mkdir -p /var/run/avahi-daemon
                             chown avahi:avahi /var/run/avahi-daemon
                             avahi-daemon --daemonize --no-chroot
-                            sleep 5
+                            echo "Waiting for avahi-daemon..."
+                            for i in $(seq 1 10); do
+                                avahi-resolve -n localhost.local > /dev/null 2>&1 && break
+                                sleep 1
+                            done
                             echo "Publishing admin.local -> 192.168.2.240"
                             avahi-publish -a admin.local 192.168.2.240
