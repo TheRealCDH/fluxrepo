@@ -17,6 +17,7 @@ spec:
     createNamespace: true
   interval: 1h
   values:
+    replicaCount: 1
     config:
       watchPlugins: true
     service:
@@ -37,13 +38,12 @@ spec:
               metadata:
                 name: headlamp
               spec:
+                replicas: 1
                 strategy:
-                  type: RollingUpdate
-                  rollingUpdate:
-                    maxSurge: 0
-                    maxUnavailable: 1
+                  type: Recreate
                 template:
                   spec:
+                    serviceAccountName: headlamp-admin
                     nodeName: ripnix
                     hostNetwork: true
                     dnsPolicy: ClusterFirstWithHostNet
@@ -57,7 +57,7 @@ spec:
                         args:
                           - |
                             mkdir -p /headlamp/plugins/kubevirt
-                            wget -qO- https://github.com/naval-group/headlamp-kubevirt/releases/download/v0.2.1/headlamp-kubevirt-0.2.1.tar.gz | tar -xz -C /headlamp/plugins/kubevirt --strip-components=1
+                            wget -qO- https://github.com/naval-group/headlamp-kubevirt/releases/download/v0.2.2/headlamp-kubevirt-0.2.2.tar.gz | tar -xz -C /headlamp/plugins/kubevirt --strip-components=1
                         volumeMounts:
                           - name: plugins-dir
                             mountPath: /headlamp/plugins

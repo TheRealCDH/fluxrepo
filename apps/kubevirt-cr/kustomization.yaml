@@ -9,7 +9,7 @@ patches:
     patch: |-
       - op: replace
         path: /spec/configuration/developerConfiguration/useEmulation
-        value: true
+        value: false
       - op: add
         path: /spec/configuration/developerConfiguration/featureGates/-
         value: "Macvtap"

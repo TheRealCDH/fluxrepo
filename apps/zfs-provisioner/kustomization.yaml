@@ -2,3 +2,21 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - https://raw.githubusercontent.com/openebs/zfs-localpv/v2.9.1/deploy/zfs-operator.yaml
+
+patches:
+  - target:
+      kind: DaemonSet
+      name: openebs-zfs-localpv-node
+    patch: |-
+      apiVersion: apps/v1
+      kind: DaemonSet
+      metadata:
+        name: openebs-zfs-localpv-node
+      spec:
+        template:
+          spec:
+            containers:
+            - name: openebs-zfs-plugin
+              env:
+              - name: ALLOWED_TOPOLOGIES
+                value: "kubernetes.io/hostname"

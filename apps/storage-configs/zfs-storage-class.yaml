@@ -9,4 +9,4 @@ parameters:
   recordsize: "128k"
   compression: "on"
 provisioner: zfs.csi.openebs.io
-volumeBindingMode: Immediate
+volumeBindingMode: WaitForFirstConsumer
