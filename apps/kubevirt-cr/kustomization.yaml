@@ -11,8 +11,18 @@ patches:
         path: /spec/configuration/developerConfiguration/useEmulation
         value: false
       - op: add
-        path: /spec/configuration/developerConfiguration/featureGates/-
-        value: "Macvtap"
+        path: /spec/configuration/developerConfiguration/featureGates
+        value:
+          - "Macvtap"
+          - "GPU"
+          - "HostDevices"
+          - "VSOCK"
+      - op: add
+        path: /spec/configuration/permittedHostDevices
+        value:
+          pciHostDevices:
+          - pciVendorSelector: "10de:1b82"
+            resourceName: "nvidia.com/gpu"
       - op: add
         path: /spec/configuration/network
         value:
