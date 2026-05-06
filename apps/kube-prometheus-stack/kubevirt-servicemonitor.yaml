@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kubevirt-metrics
+  namespace: kubevirt
+  labels:
+    app.kubernetes.io/component: kubevirt
+    app.kubernetes.io/managed-by: flux
+spec:
+  selector:
+    matchLabels:
+      prometheus.kubevirt.io: "true"
+  endpoints:
+  - port: metrics
+    scheme: https
+    tlsConfig:
+      insecureSkipVerify: true
+  namespaceSelector:
+    matchNames:
+    - kubevirt
