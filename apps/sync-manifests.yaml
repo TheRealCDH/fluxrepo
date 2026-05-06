@@ -283,3 +283,19 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./apps/kube-prometheus-stack
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kubevirt-metrics-scrape
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: kube-prometheus-stack
+  interval: 1h
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/kubevirt-metrics-scrape
