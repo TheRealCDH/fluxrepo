@@ -21,7 +21,7 @@ patches:
         path: /spec/configuration/permittedHostDevices
         value:
           pciHostDevices:
-          - pciVendorSelector: "1002:0300"
+          - pciVendorSelector: "1002"
             resourceName: "amd.com/gpu"
       - op: add
         path: /spec/configuration/network
