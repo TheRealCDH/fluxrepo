@@ -23,8 +23,6 @@ patches:
           pciHostDevices:
           - pciVendorSelector: "1002:73ef"
             resourceName: "amd.com/gpu"
-          - pciVendorSelector: "1002:ab28"
-            resourceName: "amd.com/gpu"
       - op: add
         path: /spec/configuration/network
         value:
